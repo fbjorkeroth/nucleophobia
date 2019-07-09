@@ -17,9 +17,8 @@ def Csupernova(Cp, Cn):
 
 
 def Gsupernova(Cp, Cn, fa, units='eV'):
-    u = scalefactor(units)
     mn = 9.38e8
-    f = fa * u
+    f = fa * scalefactor(units)
     return mn * Csupernova(Cp, Cn) / f
 
 
@@ -40,7 +39,17 @@ def Cq_3HDM(chi):
     return couplings
 
 
-def chi_luca_3HDM(beta1, beta2):
+def Ce(chi):
+    return chi[2] / 3
+
+
+def Ge(Ce, fa, units='eV'):
+    me = 5.11e5
+    f = fa * scalefactor(units)
+    return me * Ce / f
+
+
+def chi_3HDM(beta1, beta2):
     [cc1, cc2] = [np.power(np.cos(b), 2) for b in [beta1, beta2]]
     [ss1, ss2] = [np.power(np.sin(b), 2) for b in [beta1, beta2]]
 
@@ -52,7 +61,7 @@ def chi_luca_3HDM(beta1, beta2):
 
 
 def SNconstraint(beta1, beta2):
-    Cquarks = Cq_3HDM(chi_luca_3HDM(beta1, beta2))
+    Cquarks = Cq_3HDM(chi_3HDM(beta1, beta2))
     Cprot, Cneut = [func(*Cquarks) for func in [Cp, Cn]]
     return Csupernova(Cprot, Cneut)
 
@@ -63,6 +72,9 @@ def yukawa_perturbative(beta1, beta2):
     ytop = 0.9951 / (np.sin(beta1) * np.cos(beta2))
     ybot = 0.0240 / (np.cos(beta1) * np.cos(beta2))
 
-    alltrue = np.all([y < 4 * np.pi for y in np.array([ytau, ytop, ybot])])
+    y_unitarity = np.array([2 * np.sqrt(2) * ytau, ytop, ybot])
+
+    alltrue = np.all([y**2 < 16 * np.pi / 3 for y in y_unitarity])
+    # alltrue = np.all([y < 4 * np.pi for y in np.array([ytau, ytop, ybot])])
 
     return alltrue
