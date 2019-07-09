@@ -8,7 +8,7 @@ import couplings
 
 
 save = True
-filename = 'images/plotb1b2-leg.pdf'
+filename = 'images/Allowed.pdf'
 
 #
 # Choose contours and colours
@@ -29,7 +29,7 @@ hatchcolour = '0.3'
 
 opts_sncontours = dict(
     colors=sncolour,
-    linewidths=0.5
+    linewidths=1
 )
 
 opts_sncontourlabels = dict(
@@ -44,7 +44,7 @@ opts_sncontourlabels = dict(
 
 opts_econtours = dict(
     colors=ecolour,
-    linewidths=1.5,
+    linewidths=2,
     linestyles='dashed',
     levels=[0, 0.001, 0.01, 0.1]
 )
@@ -133,13 +133,13 @@ ax.text(xtext, ytext, 'Perturbative unitarity', **opts_text)
 # Legend
 #
 
-leg_Ce = mpl.lines.Line2D([], [], color=ecolour, linestyle='--',
+leg_Ce = mpl.lines.Line2D([], [], color=ecolour, linestyle='--', linewidth=2,
                           label=r'$C_{e}$')
-leg_CSN = mpl.lines.Line2D([], [], color=sncolour,
-                           label=r'$\sqrt{C_p^2+C_n^2}$')
+leg_CSN = mpl.lines.Line2D([], [], color=sncolour, linewidth=1,
+                           label=r'$C_{\rm SN}$')
 # leg_CSNpatch = mpl.patches.Patch(facecolor=(0.75, 0.85, 1.0))
 ax.legend(handles=[leg_CSN, leg_Ce],
-          loc='lower left', bbox_to_anchor=(0.25, 0),
+          loc='center', bbox_to_anchor=(0.9, 0.4),
           fontsize=14, framealpha=0.9)
 
 #
